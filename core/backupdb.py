@@ -7,12 +7,6 @@ def backup_db():
     chat_id = None
     file_path = f'{settings.BASE_DIR}/db.sqlite3'
 
-    try:
-        with open(file_path, "rb") as f:
-            file_data = f.read()
-    except FileNotFoundError:
-        return None
-
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     caption = f"База данных на {timestamp}"
 
