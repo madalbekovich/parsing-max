@@ -2,7 +2,7 @@ from django.conf import settings
 from datetime import datetime
 from telegram import Bot
 
-def send_sqlite_to_telegram():
+def backup_db():
     bot_token = None
     chat_id = None
     file_path = f'{settings.BASE_DIR}/db.sqlite3'
