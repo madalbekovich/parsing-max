@@ -103,7 +103,11 @@ JAZZMIN_SETTINGS = {
     # "login_logo": "admin/logo.jpg",
     "custom_css": "custom/admin.css",
     "login_logo": None,
+    "icons": {
+        "main.Device": "fas fa-user-tie",
+    },
 }
+
 
 # JAZZMIN_UI_TWEAKS = {
 #     # "theme": "darkly",

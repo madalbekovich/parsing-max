@@ -72,5 +72,5 @@ class Device(models.Model):
         blank=True
     )
     class Meta:
-        verbose_name = "Девайс"
-        verbose_name_plural = "Девайсы"
+        verbose_name = "Клиента"
+        verbose_name_plural = "Клиенты"
