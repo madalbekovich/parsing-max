@@ -1,0 +1,107 @@
+/* 1) общая настройка, чтобы фон был на весь экран */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2) сам фон (убираем любые попытки переопределить) */
+body {
+  background-image: url("/static/admin/logo.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* 3) затемнение фона для читаемости формы */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 4) сделать фон контейнера формы прозрачным и поднять его выше по Z */
+.login, .login-box, .login-container, .card, .card-body,
+.jazzmin-login, .jazzmin-login .card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 5) стилизовать сам блок формы — чтобы был читаем */
+.login .container, .login-box
+
+/* Скрыть логотип Jazzmin на странице логина */
+.login-logo,
+.login-page .brand-image,
+.login-page img[alt="logo"],
+.jazzmin-login .brand-image {
+    display: none !important;
+}
+
+
+
+/* 1) общая настройка, чтобы фон был на весь экран */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2) сам фон (убираем любые попытки переопределить) */
+body {
+  background-image: url("/static/admin/logo.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* 3) затемнение фона для читаемости формы */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 4) сделать фон контейнера формы прозрачным и поднять его выше по Z */
+.login, .login-box, .login-container, .card, .card-body,
+.jazzmin-login, .jazzmin-login .card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.login .container, .login-box
+
+.login-logo,
+.login-page .brand-image,
+.login-page img[alt="logo"],
+.jazzmin-login .brand-image {
+    display: none !important;
+}
+
+.login,
+.login-page,
+.jazzmin-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 180px;
+}
+
+.login .container,
+.login-box,
+.jazzmin-login .card {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-radius: 10px;
+    padding: 1.5rem;
+    z-index: 2;
+}

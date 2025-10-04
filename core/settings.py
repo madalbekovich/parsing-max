@@ -81,12 +81,31 @@ USE_I18N = True
 USE_TZ = True
 
 # Site url/ip
-SITE_URL = None
+SITE_URL = 'http://localhost:8000'
 
-STATIC_URL = f"{SITE_URL}/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 MEDIA_URL = f"{SITE_URL}/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Ocleon CRM",
+    "site_header": "Ocleon CRM",
+    "site_brand": "Ocleon CRM",
+    "welcome_sign": "Добро пожаловать в Ocleon CRM",
+    # "login_logo": "admin/logo.jpg",
+    "custom_css": "custom/admin.css",
+    "login_logo": None,
+}
+
+# JAZZMIN_UI_TWEAKS = {
+#     # "theme": "darkly",
+#     # "dark_mode_theme": "cyborg",
+# }

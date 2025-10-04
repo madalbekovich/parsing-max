@@ -1,4 +1,5 @@
 from django.db import models
+import random
 
 class Device(models.Model):
     where = models.CharField(
@@ -11,7 +12,7 @@ class Device(models.Model):
             ("ГУМ", "ГУМ"),
     ))
     name = models.CharField(
-        "Имя",
+        "ФИО",
         max_length=255,
         null=True,
         blank=True
@@ -34,37 +35,43 @@ class Device(models.Model):
         null=True,
         blank=True
     )
-    gar1 = models.CharField(
-        "Гар 1",
-        max_length=255,
-        null=True,
-        blank=True
-    )
-    gar2 = models.CharField(
-        "Гар 2",
-        max_length=255,
-        null=True,
-        blank=True
-    )
     price = models.CharField(
         "Цена",
         max_length=255,
         null=True,
         blank=True
     )
-    lens = models.CharField(
-        "Линзы",
-        max_length=255,
-        null=True,
-        blank=True
+    gar1 = models.BooleanField(
+        "Экран",
+        default=random.choice([True, False])
     )
-    ax = models.CharField(
-        "Ax",
-        max_length=255,
-        null=True,
-        blank=True
+    gar2 = models.BooleanField(
+        "Корпус",
+        default=random.choice([True, False])
+    )
+    general_360 = models.BooleanField(
+        "360",
+        default=random.choice([True, False])
+    )
+    side = models.BooleanField(
+        "Бокавая часть",
+        default=random.choice([True, False])
+    )
+    lens = models.BooleanField(
+        verbose_name='Линзы',
+        default=random.choice([True, False])
     )
 
+    is_used = models.BooleanField(
+        "Просрочка",
+        default=random.choice([True, False])
+    )
+    created_at = models.DateTimeField(
+        verbose_name='Дата создание',
+        # auto_now_add=True,
+        null=True,
+        blank=True
+    )
     class Meta:
         verbose_name = "Девайс"
         verbose_name_plural = "Девайсы"
