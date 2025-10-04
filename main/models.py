@@ -2,6 +2,10 @@ from django.db import models
 import random
 
 class Device(models.Model):
+    is_used = models.BooleanField(
+        "Просрочка",
+        default=False
+    )
     where = models.CharField(
         "где",
         max_length=5,
@@ -10,7 +14,7 @@ class Device(models.Model):
         choices=(
             ("ЦУМ", "ЦУМ"),
             ("ГУМ", "ГУМ"),
-    ))
+        ))
     name = models.CharField(
         "ФИО",
         max_length=255,
@@ -23,9 +27,8 @@ class Device(models.Model):
         null=True,
         blank=True
     )
-    date = models.CharField(
+    date = models.DateTimeField(
         "Дата",
-        max_length=255,
         null=True,
         blank=True
     )
@@ -41,34 +44,30 @@ class Device(models.Model):
         null=True,
         blank=True
     )
-    gar1 = models.BooleanField(
+    display = models.BooleanField(
         "Экран",
-        default=random.choice([True, False])
+        default=False
     )
-    gar2 = models.BooleanField(
+    case = models.BooleanField(
         "Корпус",
-        default=random.choice([True, False])
+        default=False
     )
     general_360 = models.BooleanField(
         "360",
-        default=random.choice([True, False])
+        default=False
     )
     side = models.BooleanField(
         "Бокавая часть",
-        default=random.choice([True, False])
+        default=False
     )
     lens = models.BooleanField(
         verbose_name='Линзы',
-        default=random.choice([True, False])
+        default=False
     )
 
-    is_used = models.BooleanField(
-        "Просрочка",
-        default=random.choice([True, False])
-    )
     created_at = models.DateTimeField(
         verbose_name='Дата создание',
-        # auto_now_add=True,
+        auto_now_add=True,
         null=True,
         blank=True
     )

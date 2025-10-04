@@ -8,7 +8,7 @@ admin.site.unregister(Group)
 
 @admin.register(Device)
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ['where', 'name', 'phone', 'date', 'model', 'gar1', 'gar2', 'general_360', 'side', 'price', 'lens', 'is_used']
+    list_display = ['where', 'name', 'phone', 'date', 'model', 'display', 'case', 'general_360', 'side', 'price', 'lens', 'is_used']
     list_display_links = ['where', 'name', 'phone', 'date', 'model']
     list_filter = ('where', 'date')
     search_fields = ['name', 'phone', 'model']
