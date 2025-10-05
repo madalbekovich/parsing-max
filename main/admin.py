@@ -12,3 +12,38 @@ class DeviceAdmin(admin.ModelAdmin):
     list_display_links = ['where', 'name', 'phone', 'date', 'model']
     list_filter = ('where', 'date')
     search_fields = ['name', 'phone', 'model']
+    readonly_fields = (
+        "display_date",
+        "case_date",
+        "cover_date",
+        "general_360_date",
+        "side_date",
+        "lens_date",
+        "created_at",
+    )
+    fieldsets = (
+        ("Общая информация", {
+            "fields": (
+                "is_used",
+                "where",
+                "name",
+                "phone",
+                "date",
+                "model",
+                "price",
+            )
+        }),
+        ("Детали ремонта / гарантий", {
+            "fields": (
+                ("display", "display_date"),
+                ("case", "case_date"),
+                ("cover", "cover_date"),
+                ("general_360", "general_360_date"),
+                ("side", "side_date"),
+                ("lens", "lens_date"),
+            )
+        }),
+        ("Служебная информация", {
+            "fields": ("created_at",),
+        }),
+    )
