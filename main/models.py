@@ -52,6 +52,10 @@ class Device(models.Model):
         "Корпус",
         default=False
     )
+    cover = models.BooleanField(
+        "Крышка",
+        default=False
+    )
     general_360 = models.BooleanField(
         "360",
         default=False

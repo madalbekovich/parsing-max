@@ -36,6 +36,7 @@ def parsing():
             "is_used": False,
             "display": False,
             "case": False,
+            "cover": False,
             "general_360": False,
             "side": False,
             "lens": False,
@@ -47,6 +48,8 @@ def parsing():
             result["display"] = True
         if "КОРПУС" in combined or "КОРП" in combined:
             result["case"] = True
+        if "КРЫШК" in combined:
+            result["cover"] = True
         if "360" in combined:
             result["general_360"] = True
         if "ТОРЦЫ" in combined or "БОКА" in combined:
