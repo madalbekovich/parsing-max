@@ -13,12 +13,12 @@ class DeviceAdmin(admin.ModelAdmin):
     list_filter = ('where', 'date')
     search_fields = ['name', 'phone', 'model']
     readonly_fields = (
-        "display_date",
-        "case_date",
-        "cover_date",
-        "general_360_date",
-        "side_date",
-        "lens_date",
+    #     "display_date",
+    #     "case_date",
+    #     "cover_date",
+    #     "general_360_date",
+    #     "side_date",
+    #     "lens_date",
         "created_at",
     )
     fieldsets = (

@@ -1,3 +1,4 @@
+import re
 import pandas as pd
 import warnings
 from datetime import datetime
@@ -32,33 +33,67 @@ def parsing():
         return True, is_not_expired, date_obj
 
     def parse_gar(gar1, gar2):
+        """
+        Парсит поля ГАР-1 и ГАР-2.
+        Извлекает флаги (display, case, cover, general_360, side, lens)
+        и соответствующие даты вида *_date (datetime.date), если после 'ИСП' указана дата.
+        """
         result = {
-            "is_used": False,
             "display": False,
             "case": False,
             "cover": False,
             "general_360": False,
             "side": False,
             "lens": False,
+
+            "display_date": None,
+            "case_date": None,
+            "cover_date": None,
+            "general_360_date": None,
+            "side_date": None,
+            "lens_date": None,
         }
-        combined = " ".join(filter(None, [gar1, gar2])).upper()
-        if "ИСП" in combined:
-            result["is_used"] = True
-        if "ЭКР" in combined or "ЭКРАН" in combined:
-            result["display"] = True
-        if "КОРПУС" in combined or "КОРП" in combined:
-            result["case"] = True
-        if "КРЫШК" in combined:
-            result["cover"] = True
-        if "360" in combined:
-            result["general_360"] = True
-        if "ТОРЦЫ" in combined or "БОКА" in combined:
-            result["side"] = True
-        if "ЛИНЗ" in combined:
-            result["lens"] = True
+
+        combined = " ".join(filter(None, [gar1, gar2])).upper().strip()
+        if not combined:
+            print(f"[DEBUG] Empty input: gar1={gar1}, gar2={gar2}")
+            return result
+
+        keywords = {
+            "display": ["ЭКР", "ЭКРАН"],
+            "case": ["КОРПУС", "КОРП"],
+            "cover": ["КРЫШК"],
+            "general_360": ["360"],
+            "side": ["ТОРЦЫ", "БОКА"],
+            "lens": ["ЛИНЗ"],
+        }
+
+        date_pattern = r"(?P<date>\d{1,2}[./]\d{1,2}[./]\d{2,4})"
+        isp_pattern = r"ИСП[А-Я]*"
+
+        for key, variants in keywords.items():
+            for word in variants:
+                if word in combined:
+                    result[key] = True
+                    pattern = rf"{word}[^А-Я0-9]*{isp_pattern}[^А-Я0-9]*(?P<date>\d{{1,2}}[./]\d{{1,2}}[./]\d{{2,4}})"
+                    match = re.search(pattern, combined)
+                    if match:
+                        dt = _parse_date(match.group("date"))
+                        if dt:
+                            result[f"{key}_date"] = dt.date()
+                        break
+
         return result
 
-    # Словарь соответствия столбцов для каждого листа
+    def _parse_date(date_str):
+        """Парсит строку даты и возвращает datetime.datetime или None"""
+        for fmt in ("%d.%m.%Y", "%d.%m.%y", "%d/%m/%Y", "%d/%m/%y"):
+            try:
+                return datetime.strptime(date_str, fmt)
+            except ValueError:
+                continue
+        return None
+
     columns_map = {
         "ГУМ": {
             "name": "ИМЯ",
