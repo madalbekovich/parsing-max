@@ -1,0 +1,257 @@
+/* ========================================
+   Стили для деталей ремонта (Jazzmin)
+   ======================================== */
+
+/* Контейнер с деталями */
+.repair-details-container {
+    margin: 20px 0 !important;
+}
+
+/* Каждая строка запчасти */
+.repair-detail-row {
+    /* JavaScript применит grid-layout динамически */
+    background-color: #f8f9fa !important;
+    border-radius: 8px !important;
+    padding: 20px 15px !important;
+    margin-bottom: 50px !important;
+    border-left: 4px solid #007bff !important;
+    transition: all 0.2s ease !important;
+}
+
+.repair-detail-row:hover {
+    background-color: #e9ecef !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15) !important;
+}
+
+.repair-detail-row:focus-within {
+    border-left-color: #0056b3 !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25) !important;
+}
+
+/* Поля внутри строки */
+.repair-detail-row .fieldBox,
+.repair-detail-row .col-auto,
+.repair-detail-row [class*="field-"] {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Labels */
+.repair-detail-row label {
+    font-weight: 600 !important;
+    color: #495057 !important;
+    font-size: 13px !important;
+    margin: 0 0 5px 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
+    display: block !important;
+}
+
+/* Убираем двоеточие */
+.repair-detail-row label:after {
+    content: "" !important;
+}
+
+/* Первое поле (название запчасти) */
+.repair-detail-row > *:first-child label {
+    color: #007bff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+
+/* Чекбоксы */
+.repair-detail-row input[type="checkbox"] {
+    width: 24px !important;
+    height: 24px !important;
+    cursor: pointer !important;
+    margin: 5px 0 !important;
+    accent-color: #007bff !important;
+}
+
+.repair-detail-row input[type="checkbox"]:checked {
+    accent-color: #28a745 !important;
+}
+
+/* Поля дат */
+.repair-detail-row input[type="date"] {
+    padding: 8px 12px !important;
+    border: 2px solid #ced4da !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    max-width: 200px !important;
+    background-color: #ffffff !important;
+    transition: all 0.2s ease !important;
+}
+
+.repair-detail-row input[type="date"]:focus {
+    outline: none !important;
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15) !important;
+}
+
+/* Readonly поля */
+.repair-detail-row input[readonly],
+.repair-detail-row input[disabled] {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    max-width: 200px !important;
+    border: 2px solid #dee2e6 !important;
+    text-align: center !important;
+    cursor: not-allowed !important;
+    font-weight: 500 !important;
+}
+
+/* Разделители между строками */
+.repair-separator {
+    width: 100% !important;
+    height: 1px !important;
+    background: linear-gradient(to right, transparent, #dee2e6 50%, transparent) !important;
+    margin: -30px 0 5px 0 !important;
+}
+
+/* ========================================
+   ТЕМНАЯ ТЕМА
+   ======================================== */
+
+body[data-bs-theme="dark"] .repair-detail-row,
+.dark-mode .repair-detail-row {
+    background-color: #2d3748 !important;
+    border-left-color: #4299e1 !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row:hover,
+.dark-mode .repair-detail-row:hover {
+    background-color: #374151 !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row label,
+.dark-mode .repair-detail-row label {
+    color: #e2e8f0 !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row > *:first-child label,
+.dark-mode .repair-detail-row > *:first-child label {
+    color: #4299e1 !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row input[type="date"],
+.dark-mode .repair-detail-row input[type="date"] {
+    background-color: #1a202c !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row input[type="date"]:focus,
+.dark-mode .repair-detail-row input[type="date"]:focus {
+    border-color: #4299e1 !important;
+    box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25) !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row input[readonly],
+body[data-bs-theme="dark"] .repair-detail-row input[disabled],
+.dark-mode .repair-detail-row input[readonly],
+.dark-mode .repair-detail-row input[disabled] {
+    background-color: #1a202c !important;
+    border-color: #4b5563 !important;
+    color: #9ca3af !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row input[type="checkbox"],
+.dark-mode .repair-detail-row input[type="checkbox"] {
+    accent-color: #4299e1 !important;
+}
+
+body[data-bs-theme="dark"] .repair-detail-row input[type="checkbox"]:checked,
+.dark-mode .repair-detail-row input[type="checkbox"]:checked {
+    accent-color: #48bb78 !important;
+}
+
+body[data-bs-theme="dark"] .repair-separator,
+.dark-mode .repair-separator {
+    background: linear-gradient(to right, transparent, #4b5563 50%, transparent) !important;
+}
+
+/* ========================================
+   АДАПТИВНОСТЬ
+   ======================================== */
+
+/* Планшеты */
+@media (max-width: 1200px) {
+    .repair-detail-row {
+        padding: 15px 12px !important;
+        gap: 12px !important;
+    }
+    
+    .repair-detail-row label {
+        font-size: 12px !important;
+    }
+}
+
+/* Мобильные */
+@media (max-width: 768px) {
+    .repair-detail-row {
+        padding: 15px 10px !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .repair-detail-row input[type="date"],
+    .repair-detail-row input[readonly],
+    .repair-detail-row input[disabled] {
+        max-width: 100% !important;
+    }
+}
+
+/* ========================================
+   АНИМАЦИИ
+   ======================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.repair-detail-row {
+    animation: fadeIn 0.3s ease-in !important;
+}
+
+/* ========================================
+   ДОПОЛНИТЕЛЬНЫЕ СТИЛИ
+   ======================================== */
+
+/* Убираем лишние отступы Bootstrap */
+.repair-detail-row .fieldBox > *,
+.repair-detail-row .col-auto > *,
+.repair-detail-row [class*="field-"] > * {
+    margin-bottom: 0 !important;
+}
+
+/* Стили для help text (если есть) */
+.repair-detail-row .help-block,
+.repair-detail-row .form-text {
+    font-size: 12px !important;
+    color: #6c757d !important;
+    margin-top: 4px !important;
+}
+
+/* Ошибки валидации */
+.repair-detail-row .errorlist {
+    color: #dc3545 !important;
+    font-size: 12px !important;
+    margin-top: 4px !important;
+    padding-left: 0 !important;
+    list-style: none !important;
+}
+
+.repair-detail-row .errorlist li {
+    padding: 2px 0 !important;
+}
