@@ -1,148 +1,22 @@
-# from django.db import models
-# import random
-# from django.utils import timezone
-# from datetime import timedelta
-
-# class Device(models.Model):
-#     is_used = models.BooleanField(
-#         "Просрочка/ИСП",
-#         default=False
-#     )
-#     where = models.CharField(
-#         "где",
-#         max_length=5,
-#         null=True,
-#         blank=True,
-#         choices=(
-#             ("ЦУМ", "ЦУМ"),
-#             ("ГУМ", "ГУМ"),
-#         ))
-#     name = models.CharField(
-#         "ФИО",
-#         max_length=255,
-#         null=True,
-#         blank=True
-#     )
-#     phone = models.CharField(
-#         "Телефон",
-#         max_length=255,
-#         null=True,
-#         blank=True
-#     )
-#     date = models.DateTimeField(
-#         "Дата",
-#         null=True,
-#         blank=True
-#     )
-#     model = models.CharField(
-#         "Модель",
-#         max_length=255,
-#         null=True,
-#         blank=True
-#     )
-#     price = models.CharField(
-#         "Цена",
-#         max_length=255,
-#         null=True,
-#         blank=True
-#     )
-#     display = models.BooleanField(
-#         "Экран",
-#         default=False
-#     )
-#     display_date = models.DateField(
-#         "Гарантия экрана",
-#         null=True,
-#         blank=True,
-#     )
-#     case = models.BooleanField(
-#         "Корпус",
-#         default=False
-#     )
-#     case_date = models.DateField(
-#         "Гарантия корпуса",
-#         null=True,
-#         blank=True,
-#     )
-#     cover = models.BooleanField(
-#         "Крышка",
-#         default=False
-#     )
-#     cover_date = models.DateField(
-#         "Гарантия крышки",
-#         null=True,
-#         blank=True,
-#     )
-#     general_360 = models.BooleanField(
-#         "360",
-#         default=False
-#     )
-#     general_360_date = models.DateField(
-#         "Гарантия 360",
-#         null=True,
-#         blank=True,
-#     )
-#     side = models.BooleanField(
-#         "Бокавая часть",
-#         default=False
-#     )
-#     side_date = models.DateField(
-#         "Гарантия боковой части",
-#         null=True,
-#         blank=True,
-#     )
-#     lens = models.BooleanField(
-#         verbose_name='Линзы',
-#         default=False
-#     )
-#     lens_date = models.DateField(
-#         "Гарантия линзы",
-#         null=True,
-#         blank=True,
-#     )
-
-#     created_at = models.DateTimeField(
-#         verbose_name='Дата создание',
-#         auto_now_add=True,
-#         null=True,
-#         blank=True
-#     )
-
-#     # def save(self, *args, **kwargs):
-#     #     next_year = (timezone.now() + timedelta(days=365)).date()
-#     #
-#     #     if self.display and not self.display_date:
-#     #         self.display_date = next_year
-#     #
-#     #     if self.case and not self.case_date:
-#     #         self.cas_date = next_year
-#     #
-#     #     if self.cover and not self.cover_date:
-#     #         self.cover_date = next_year
-#     #
-#     #     if self.general_360 and not self.general_360_date:
-#     #         self.general_360_date = next_year
-#     #
-#     #     if self.side and not self.side_date:
-#     #         self.side_date = next_year
-#     #
-#     #     if self.lens and not self.lens_date:
-#     #         self.lens_date = next_year
-#     #
-#     #     super().save(*args, **kwargs)
-
-#     class Meta:
-#         verbose_name = "Клиента"
-#         verbose_name_plural = "Клиенты"
-
-
-
-
 from django.db import models
 from django.utils import timezone
+from dateutil.relativedelta import relativedelta
 
 
 class Device(models.Model):
+    # Статусы для деталей
+    STATUS_NOT_CHANGED = 'not_changed'
+    STATUS_WITH_WARRANTY = 'with_warranty'
+    STATUS_WARRANTY_USED = 'warranty_used'
+    STATUS_WITHOUT_WARRANTY = 'without_warranty'
+
+    PART_STATUS_CHOICES = [
+        (STATUS_NOT_CHANGED, '❌ Не менялось'),
+        (STATUS_WITH_WARRANTY, '✅ Заменено (гарантия)'),
+        (STATUS_WARRANTY_USED, '⚠️ Гарантия использована'),
+        (STATUS_WITHOUT_WARRANTY, '🔧 Без гарантии'),
+    ]
+
     # Общие данные
     is_used = models.BooleanField("Просрочка/ИСП", default=False)
     where = models.CharField("где", max_length=5, null=True, blank=True,
@@ -154,46 +28,77 @@ class Device(models.Model):
     price = models.CharField("Цена", max_length=255, null=True, blank=True)
 
     # --- ЭКРАН ---
-    display = models.BooleanField("Экран", default=False)
-    display_warranty = models.BooleanField("Гарантия экрана", default=False)
-    display_date = models.DateField("Дата гарантии экрана", null=True, blank=True)
-    used_display_date = models.DateField("Использовано экран", null=True, blank=True)
+    display_status = models.CharField(
+        "Экран",
+        max_length=20,
+        choices=PART_STATUS_CHOICES,
+        default=STATUS_NOT_CHANGED
+    )
+    display_warranty_date = models.DateField("Дата окончания гарантии", null=True, blank=True)
+    display_used_date = models.DateField("Дата использования гарантии", null=True, blank=True)
 
     # --- КОРПУС ---
-    case = models.BooleanField("Корпус", default=False)
-    case_warranty = models.BooleanField("Гарантия корпуса", default=False)
-    case_date = models.DateField("Дата гарантии корпуса", null=True, blank=True)
-    used_case_date = models.DateField("Использовано корпус", null=True, blank=True)
+    case_status = models.CharField(
+        "Корпус",
+        max_length=20,
+        choices=PART_STATUS_CHOICES,
+        default=STATUS_NOT_CHANGED
+    )
+    case_warranty_date = models.DateField("Дата окончания гарантии", null=True, blank=True)
+    case_used_date = models.DateField("Дата использования гарантии", null=True, blank=True)
 
     # --- КРЫШКА ---
-    cover = models.BooleanField("Крышка", default=False)
-    cover_warranty = models.BooleanField("Гарантия крышки", default=False)
-    cover_date = models.DateField("Дата гарантии крышки", null=True, blank=True)
-    used_cover_date = models.DateField("Использовано крышка", null=True, blank=True)
+    cover_status = models.CharField(
+        "Крышка",
+        max_length=20,
+        choices=PART_STATUS_CHOICES,
+        default=STATUS_NOT_CHANGED
+    )
+    cover_warranty_date = models.DateField("Дата окончания гарантии", null=True, blank=True)
+    cover_used_date = models.DateField("Дата использования гарантии", null=True, blank=True)
 
     # --- 360 ---
-    general_360 = models.BooleanField("360", default=False)
-    general_360_warranty = models.BooleanField("Гарантия 360", default=False)
-    general_360_date = models.DateField("Дата гарантии 360", null=True, blank=True)
-    used_general_360_date = models.DateField("Использовано 360", null=True, blank=True)
+    general_360_status = models.CharField(
+        "360 (полная оклейка)",
+        max_length=20,
+        choices=PART_STATUS_CHOICES,
+        default=STATUS_NOT_CHANGED
+    )
+    general_360_warranty_date = models.DateField("Дата окончания гарантии", null=True, blank=True)
+    general_360_used_date = models.DateField("Дата использования гарантии", null=True, blank=True)
 
     # --- БОКОВАЯ ЧАСТЬ ---
-    side = models.BooleanField("Боковая часть", default=False)
-    side_warranty = models.BooleanField("Гарантия боковой части", default=False)
-    side_date = models.DateField("Дата гарантии боковой части", null=True, blank=True)
-    used_side_date = models.DateField("Использовано боковая часть", null=True, blank=True)
+    side_status = models.CharField(
+        "Боковая часть",
+        max_length=20,
+        choices=PART_STATUS_CHOICES,
+        default=STATUS_NOT_CHANGED
+    )
+    side_warranty_date = models.DateField("Дата окончания гарантии", null=True, blank=True)
+    side_used_date = models.DateField("Дата использования гарантии", null=True, blank=True)
 
     # --- ЛИНЗЫ ---
-    lens = models.BooleanField("Линзы", default=False)
-    lens_warranty = models.BooleanField("Гарантия линзы", default=False)
-    lens_date = models.DateField("Дата гарантии линзы", null=True, blank=True)
-    used_lens_date = models.DateField("Использовано линзы", null=True, blank=True)
+    lens_status = models.CharField(
+        "Линзы",
+        max_length=20,
+        choices=PART_STATUS_CHOICES,
+        default=STATUS_NOT_CHANGED
+    )
+    lens_warranty_date = models.DateField("Дата окончания гарантии", null=True, blank=True)
+    lens_used_date = models.DateField("Дата использования гарантии", null=True, blank=True)
 
     created_at = models.DateTimeField("Дата создания", auto_now_add=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
+        """
+        Упрощённая логика:
+        - Если выбрана полная оклейка (360), то остальные детали получают тот же статус.
+        - При статусе "с гарантией" → +1 год.
+        - При статусе "гарантия использована" → фиксируется дата.
+        """
         today = timezone.now().date()
 
+        # Получаем старую версию
         old_instance = None
         if self.pk:
             try:
@@ -201,35 +106,44 @@ class Device(models.Model):
             except Device.DoesNotExist:
                 pass
 
-        warranty_fields = [
-            ("display_warranty", "used_display_date"),
-            ("case_warranty", "used_case_date"),
-            ("cover_warranty", "used_cover_date"),
-            ("general_360_warranty", "used_general_360_date"),
-            ("side_warranty", "used_side_date"),
-            ("lens_warranty", "used_lens_date"),
+        # Универсальная обработка деталей
+        parts = [
+            ('display_status', 'display_warranty_date', 'display_used_date'),
+            ('case_status', 'case_warranty_date', 'case_used_date'),
+            ('cover_status', 'cover_warranty_date', 'cover_used_date'),
+            ('general_360_status', 'general_360_warranty_date', 'general_360_used_date'),
+            ('side_status', 'side_warranty_date', 'side_used_date'),
+            ('lens_status', 'lens_warranty_date', 'lens_used_date'),
         ]
 
-        for warranty_field, used_field in warranty_fields:
-            current_warranty = getattr(self, warranty_field)
-            current_used = getattr(self, used_field)
-            
-            if not old_instance:
-                continue
-            
-            old_warranty = getattr(old_instance, warranty_field)
-            old_used = getattr(old_instance, used_field)
-            
-            # СЛУЧАЙ 1: Гарантия ОТКЛЮЧИЛАСЬ (было True -- стало False)
-            if old_warranty and not current_warranty:
-                if not current_used:
-                    setattr(self, used_field, today)
-            
-            elif not old_warranty and current_warranty:
+        # 1️⃣ Если клиент выбрал "360", применяем этот статус ко всем деталям
+        if self.general_360_status != self.STATUS_NOT_CHANGED:
+            for field, _, _ in parts:
+                if field != 'general_360_status':
+                    setattr(self, field, self.general_360_status)
+
+        # 2️⃣ Обрабатываем каждую деталь
+        for status_field, warranty_field, used_field in parts:
+            status = getattr(self, status_field)
+
+            if status == self.STATUS_WITH_WARRANTY:
+                if not getattr(self, warranty_field):
+                    setattr(self, warranty_field, today + relativedelta(years=1))
                 setattr(self, used_field, None)
-            
+
+            elif status == self.STATUS_WARRANTY_USED:
+                if not getattr(self, used_field):
+                    setattr(self, used_field, today)
+
+            elif status in [self.STATUS_NOT_CHANGED, self.STATUS_WITHOUT_WARRANTY]:
+                setattr(self, warranty_field, None)
+                if status == self.STATUS_NOT_CHANGED:
+                    setattr(self, used_field, None)
 
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} - {self.phone} ({self.model})"
 
     class Meta:
         verbose_name = "Клиент"

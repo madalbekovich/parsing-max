@@ -1,0 +1,267 @@
+/* ========================================
+   Упрощённые стили для деталей ремонта
+   ======================================== */
+
+/* Контейнер секции */
+.repair-details-section {
+    margin: 20px 0 !important;
+}
+
+/* Каждая строка детали */
+.repair-details-section .row {
+    display: grid !important;
+    grid-template-columns: 250px 200px 200px !important;
+    gap: 15px !important;
+    padding: 15px 20px !important;
+    margin-bottom: 30px !important;
+    background-color: #f8f9fa !important;
+    border-radius: 8px !important;
+    border-left: 4px solid #007bff !important;
+    align-items: start !important;
+    transition: all 0.2s ease !important;
+}
+
+.repair-details-section .row:hover {
+    background-color: #e9ecef !important;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1) !important;
+}
+
+/* Выпадающий список статуса */
+.status-select {
+    padding: 10px 12px !important;
+    border: 2px solid #ced4da !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    background-color: #ffffff !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+}
+
+.status-select:hover {
+    border-color: #007bff !important;
+}
+
+.status-select:focus {
+    outline: none !important;
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15) !important;
+}
+
+/* Цвет select в зависимости от значения */
+.status-select option[value="not_changed"] {
+    color: #6c757d !important;
+}
+
+.status-select option[value="with_warranty"] {
+    color: #28a745 !important;
+    font-weight: bold !important;
+}
+
+.status-select option[value="warranty_used"] {
+    color: #ffc107 !important;
+    font-weight: bold !important;
+}
+
+.status-select option[value="without_warranty"] {
+    color: #007bff !important;
+}
+
+/* Readonly поля дат */
+.repair-details-section input[readonly] {
+    background-color: #e9ecef !important;
+    color: #495057 !important;
+    padding: 10px 12px !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    border: 2px solid #dee2e6 !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    cursor: not-allowed !important;
+}
+
+/* Зелёный фон для даты окончания гарантии */
+input[name$="_warranty_date"][readonly]:not([value=""]) {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    border-color: #c3e6cb !important;
+}
+
+/* Оранжевый фон для даты использования */
+input[name$="_used_date"][readonly]:not([value=""]) {
+    background-color: #fff3cd !important;
+    color: #856404 !important;
+    border-color: #ffeeba !important;
+}
+
+/* Labels */
+.repair-details-section label {
+    font-weight: 600 !important;
+    color: #495057 !important;
+    font-size: 13px !important;
+    margin: 0 0 5px 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    display: block !important;
+}
+
+/* Убираем двоеточие */
+.repair-details-section label:after {
+    content: "" !important;
+}
+
+/* Первое поле (статус детали) */
+.repair-details-section .row > div:first-child label {
+    color: #007bff !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}
+
+/* Описание секции */
+.repair-details-section .description {
+    background-color: #d1ecf1 !important;
+    border-left: 4px solid #17a2b8 !important;
+    padding: 12px 15px !important;
+    margin-bottom: 20px !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    color: #0c5460 !important;
+}
+
+/* Подсветка активной строки */
+.repair-details-section .row:focus-within {
+    border-left-color: #0056b3 !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2) !important;
+}
+
+/* Анимация появления */
+.repair-details-section .row {
+    animation: slideIn 0.3s ease-out !important;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Разделители между строками */
+.repair-details-section .row:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #dee2e6 50%, transparent);
+}
+
+/* ========================================
+   ТЕМНАЯ ТЕМА
+   ======================================== */
+
+body[data-bs-theme="dark"] .repair-details-section .row,
+.dark-mode .repair-details-section .row {
+    background-color: #2d3748 !important;
+    border-left-color: #4299e1 !important;
+}
+
+body[data-bs-theme="dark"] .repair-details-section .row:hover,
+.dark-mode .repair-details-section .row:hover {
+    background-color: #374151 !important;
+}
+
+body[data-bs-theme="dark"] .status-select,
+.dark-mode .status-select {
+    background-color: #1a202c !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body[data-bs-theme="dark"] .repair-details-section input[readonly],
+.dark-mode .repair-details-section input[readonly] {
+    background-color: #1a202c !important;
+    border-color: #4b5563 !important;
+    color: #9ca3af !important;
+}
+
+body[data-bs-theme="dark"] input[name$="_warranty_date"][readonly]:not([value=""]),
+.dark-mode input[name$="_warranty_date"][readonly]:not([value=""]) {
+    background-color: #064e3b !important;
+    color: #6ee7b7 !important;
+    border-color: #059669 !important;
+}
+
+body[data-bs-theme="dark"] input[name$="_used_date"][readonly]:not([value=""]),
+.dark-mode input[name$="_used_date"][readonly]:not([value=""]) {
+    background-color: #78350f !important;
+    color: #fcd34d !important;
+    border-color: #f59e0b !important;
+}
+
+body[data-bs-theme="dark"] .repair-details-section label,
+.dark-mode .repair-details-section label {
+    color: #e2e8f0 !important;
+}
+
+body[data-bs-theme="dark"] .repair-details-section .row > div:first-child label,
+.dark-mode .repair-details-section .row > div:first-child label {
+    color: #4299e1 !important;
+}
+
+/* ========================================
+   АДАПТИВНОСТЬ
+   ======================================== */
+
+@media (max-width: 1200px) {
+    .repair-details-section .row {
+        grid-template-columns: 200px 180px 180px !important;
+        gap: 12px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .repair-details-section .row {
+        grid-template-columns: 1fr !important;
+        padding: 15px !important;
+    }
+
+    .repair-details-section .row > div:first-child {
+        padding-bottom: 10px !important;
+        border-bottom: 2px solid #dee2e6 !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* ========================================
+   ИНДИКАТОРЫ СТАТУСА
+   ======================================== */
+
+/* Иконки в select */
+select[value="with_warranty"] {
+    border-color: #28a745 !important;
+    background-color: #d4edda !important;
+}
+
+select[value="warranty_used"] {
+    border-color: #ffc107 !important;
+    background-color: #fff3cd !important;
+}
+
+select[value="without_warranty"] {
+    border-color: #007bff !important;
+}
+
+/* Помощь текст */
+.help-block, .form-text {
+    font-size: 12px !important;
+    color: #6c757d !important;
+    margin-top: 4px !important;
+    font-style: italic !important;
+}
